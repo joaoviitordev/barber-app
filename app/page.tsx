@@ -1,7 +1,5 @@
 import { Button } from "@/app/_components/ui/button";
 
-const teste = "teste";
-
 export default function Home() {
   return (
     <main>
