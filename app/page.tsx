@@ -1,10 +1,9 @@
-import { Button } from "@/app/_components/ui/button";
+import Header from "./_components/Header";
 
 export default function Home() {
   return (
     <main>
-      <h1>Olá, Mundo!</h1>
-      <Button>Teste</Button>
+      <Header />
     </main>
   );
 }
