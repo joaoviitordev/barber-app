@@ -9,6 +9,7 @@ import { Avatar, AvatarImage } from "./_components/ui/avatar";
 import { db } from "./_lib/prisma";
 import Footer from "./_components/Footer";
 import BarberShopItem from "./_components/BarberShopItem";
+import FastButtons from "./_components/FastButtons";
 
 export default async function Home() {
   const babershop = await db.barbershop.findMany({});
@@ -33,27 +34,7 @@ export default async function Home() {
         </Button>
       </div>
 
-      <div className="px-5 mt-6 flex gap-3 w-full justify-center">
-        <Button variant="outline">
-          <Image src="/iconsscissors.svg" alt="Cabelo" width={20} height={20} />
-          <p className="text-sm">Cabelo</p>
-        </Button>
-
-        <Button variant="outline">
-          <Image src="/iconmustache.svg" alt="Barba" width={20} height={20} />
-          <p className="text-sm">Barba</p>
-        </Button>
-
-        <Button variant="outline">
-          <Image
-            src="/iconrazor-double-edge.svg"
-            alt="Acabamento"
-            width={20}
-            height={20}
-          />
-          <p className="text-sm">Acabamento</p>
-        </Button>
-      </div>
+      <FastButtons />
 
       <div className="w-full px-5 mt-5">
         <Image
@@ -64,7 +45,7 @@ export default async function Home() {
           className="w-full h-full object-cover rounded-2xl"
         />
       </div>
-
+      {/* AGENDAMENTOS */}
       <div className="px-5 mt-2">
         <h2 className="uppercase text-gray-500 text-sm py-4">Agendamentos</h2>
         <Card className="p-0 flex flex-row gap-2">
@@ -85,7 +66,7 @@ export default async function Home() {
           </CardContent>
         </Card>
       </div>
-
+      {/* RECOMENDADOS */}
       <div className="px-5 mt-2">
         <h2 className="uppercase text-gray-500 text-sm py-4">Recomendados</h2>
         <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
@@ -94,7 +75,7 @@ export default async function Home() {
           ))}
         </div>
       </div>
-
+      {/* POPULARES */}
       <div className="px-5 mt-2">
         <h2 className="uppercase text-gray-500 text-sm py-4">Populares</h2>
         <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
