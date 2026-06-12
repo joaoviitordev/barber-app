@@ -7,11 +7,17 @@ import { Card, CardContent } from "./_components/ui/card";
 import { Badge } from "./_components/ui/badge";
 import { Avatar, AvatarImage } from "./_components/ui/avatar";
 import { db } from "./_lib/prisma";
+import Footer from "./_components/Footer";
 import BarberShopItem from "./_components/BarberShopItem";
 
 export default async function Home() {
   const babershop = await db.barbershop.findMany({});
-
+  const popularBarberShop = await db.barbershop.findMany({
+    take: 10,
+    orderBy: {
+      name: "desc",
+    },
+  });
   return (
     <main>
       <Header />
@@ -88,6 +94,17 @@ export default async function Home() {
           ))}
         </div>
       </div>
+
+      <div className="px-5 mt-2">
+        <h2 className="uppercase text-gray-500 text-sm py-4">Populares</h2>
+        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          {popularBarberShop.map((barbershop) => (
+            <BarberShopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
+      </div>
+
+      <Footer />
     </main>
   );
 }
