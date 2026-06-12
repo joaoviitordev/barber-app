@@ -6,13 +6,17 @@ import Image from "next/image";
 import { Card, CardContent } from "./_components/ui/card";
 import { Badge } from "./_components/ui/badge";
 import { Avatar, AvatarImage } from "./_components/ui/avatar";
+import { db } from "./_lib/prisma";
+import BarberShopItem from "./_components/BarberShopItem";
 
-export default function Home() {
+export default async function Home() {
+  const babershop = await db.barbershop.findMany({});
+
   return (
     <main>
       <Header />
       <div className="p-5">
-        <h1 className="text-xl font-bold py-1">Olá, João Vitor</h1>
+        <h1 className="text-xl font-bold py-1">Olá, Faça seu Login!</h1>
         <h2 className="text-sm mt-0.5">Sexta-Feira, 12 de Junho</h2>
       </div>
 
@@ -74,6 +78,15 @@ export default function Home() {
             <p className="text-base">09:30</p>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="px-5 mt-2">
+        <h2 className="uppercase text-gray-500 text-sm py-4">Recomendados</h2>
+        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          {babershop.map((barbershop) => (
+            <BarberShopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
       </div>
     </main>
   );
