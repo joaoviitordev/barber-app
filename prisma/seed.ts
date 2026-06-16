@@ -12,6 +12,11 @@ const prisma = new PrismaClient({ adapter });
 
 async function seedDatabase() {
   try {
+    // Limpar o banco de dados antes de rodar a seed para evitar duplicados
+    await prisma.booking.deleteMany();
+    await prisma.barbershopService.deleteMany();
+    await prisma.barbershop.deleteMany();
+
     const images = [
       "https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png",
       "https://utfs.io/f/45331760-899c-4b4b-910e-e00babb6ed81-16q.png",
@@ -94,14 +99,15 @@ async function seedDatabase() {
       },
       {
         name: "Massagem",
-        description: "Relaxe com uma massagem revigorante.",
+        description:
+          "Relaxe com uma massagem revigorante para encarar o dia a dia.",
         price: 50.0,
         imageUrl:
           "https://utfs.io/f/c4919193-a675-4c47-9f21-ebd86d1c8e6a-4oen2a.png",
       },
       {
         name: "Hidratação",
-        description: "Hidratação profunda para cabelo e barba.",
+        description: "Hidratação perfeita para seu cabelo e barba.",
         price: 25.0,
         imageUrl:
           "https://utfs.io/f/8a457cda-f768-411d-a737-cdb23ca6b9b5-b3pegf.png",

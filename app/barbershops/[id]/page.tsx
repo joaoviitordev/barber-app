@@ -1,8 +1,16 @@
 import { db } from "@/app/_lib/prisma";
 import { Button } from "@/app/_components/ui/button";
 import Image from "next/image";
-import { ArrowLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  MapPinIcon,
+  MenuIcon,
+  PhoneIcon,
+  StarIcon,
+} from "lucide-react";
 import Link from "next/link";
+import ServiceItem from "@/app/_components/ServiceItem";
+import Footer from "@/app/_components/Footer";
 
 interface BarberShopProps {
   params: Promise<{ id: string }>;
@@ -13,6 +21,9 @@ export default async function barberShopPage({ params }: BarberShopProps) {
   const barbershop = await db.barbershop.findUnique({
     where: {
       id,
+    },
+    include: {
+      services: true,
     },
   });
 
@@ -70,11 +81,25 @@ export default async function barberShopPage({ params }: BarberShopProps) {
           e uma comunidade unida.
         </p>
       </div>
-      <div className="p-5 border-b border-[chart-5]">
+      <div className="p-5 border-b border-[chart-5] flex flex-col gap-4">
         <h2 className="uppercase text-gray-500 font-bold text-base">
           Serviços
         </h2>
+        {barbershop.services.map((service) => (
+          <ServiceItem key={service.id} service={service} />
+        ))}
       </div>
+      <div className="p-5 pb-0 flex flex-col gap-4">
+        <h2 className="uppercase text-gray-500 font-bold text-base">Contato</h2>
+        <div className="flex flex-col items-start gap-2 ">
+          <div className="flex items-center justify-between w-full gap-2">
+            <PhoneIcon className="text-primary" />
+            <p className="w-full font-light">{barbershop.phones.join(", ")}</p>
+            <Button variant="secondary">Copiar</Button>
+          </div>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }
