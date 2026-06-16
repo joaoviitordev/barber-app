@@ -16,7 +16,7 @@ export default function Menu() {
     <Sheet>
       <SheetTrigger
         render={
-          <Button variant="outline" size="icon">
+          <Button variant="secondary" size="icon">
             <MenuIcon />
           </Button>
         }

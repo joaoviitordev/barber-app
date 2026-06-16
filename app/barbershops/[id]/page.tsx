@@ -4,8 +4,8 @@ import Image from "next/image";
 import { ArrowLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
 import ServiceItem from "@/app/_components/ServiceItem";
-import Footer from "@/app/_components/Footer";
 import PhoneItem from "@/app/_components/PhoneItem";
+import Menu from "@/app/_components/Menu";
 
 interface BarberShopProps {
   params: Promise<{ id: string }>;
@@ -30,14 +30,12 @@ export default async function barberShopPage({ params }: BarberShopProps) {
     <div>
       <div className="relative">
         <div className="absolute top-0 left-0 z-10 p-5 flex items-center justify-between w-full">
-          <Button variant="secondary" className="bg-background rounded-xl">
+          <Button variant="secondary">
             <Link href="/">
               <ArrowLeftIcon />
             </Link>
           </Button>
-          <Button variant="secondary" className="bg-background rounded-xl">
-            <MenuIcon />
-          </Button>
+          <Menu />
         </div>
         <div className="relative">
           <Image
