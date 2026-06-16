@@ -1,7 +1,6 @@
-import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
-import { MenuIcon } from "lucide-react";
+import Menu from "./Menu";
 
 export default function Header() {
   return (
@@ -13,9 +12,7 @@ export default function Header() {
           width={120}
           height={120}
         />
-        <Button variant="outline" size="icon">
-          <MenuIcon />
-        </Button>
+        <Menu />
       </CardContent>
     </Card>
   );

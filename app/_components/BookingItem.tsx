@@ -13,7 +13,7 @@ export default function BookingItem() {
           <Badge variant="default">Confirmado</Badge>
           <h3 className="font-semibold text-lg">Corte de Cabelo</h3>
           <div className="flex items-center gap-2">
-            <Avatar className="">
+            <Avatar>
               <AvatarImage src="https://utfs.io/f/6b0888f8-b69f-4be7-a13b-52d1c0c9cab2-17m.png" />
             </Avatar>
             <p className="text-base">Vintage Barber</p>
