@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface BarberShopItemProps {
   barbershop: Barbershop;
@@ -42,7 +43,7 @@ export default function BarberShopItem({ barbershop }: BarberShopItemProps) {
             variant="secondary"
             className="w-full mt-3 rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300"
           >
-            Reservar
+            <Link href={`/barbershops/${barbershop.id}`}>Reservar</Link>
           </Button>
         </div>
       </CardContent>
