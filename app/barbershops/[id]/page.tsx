@@ -30,10 +30,12 @@ export default async function barberShopPage({ params }: BarberShopProps) {
     <div>
       <div className="relative">
         <div className="absolute top-0 left-0 z-10 p-5 flex items-center justify-between w-full">
-          <Button variant="secondary">
-            <Link href="/">
-              <ArrowLeftIcon />
-            </Link>
+          <Button
+            variant="secondary"
+            nativeButton={false}
+            render={<Link href="/" />}
+          >
+            <ArrowLeftIcon />
           </Button>
           <Menu />
         </div>

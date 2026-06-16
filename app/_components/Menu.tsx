@@ -10,6 +10,7 @@ import { HomeIcon, MenuIcon, CalendarIcon, LogOutIcon } from "lucide-react";
 import MenuBottons from "./MenuBottons";
 import { Avatar } from "./ui/avatar";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Menu() {
   return (
@@ -41,10 +42,17 @@ export default function Menu() {
           </div>
         </SheetHeader>
         <div className="p-5 flex flex-col gap-2 border-b border-t border-[chart-5]">
-          <Button variant="default" className="w-full justify-start gap-2">
-            <HomeIcon />
-            Início
-          </Button>
+          <Button
+            variant="default"
+            className="w-full justify-start gap-2"
+            nativeButton={false}
+            render={
+              <Link href="/" className="flex items-center gap-2">
+                <HomeIcon />
+                Início
+              </Link>
+            }
+          />
           <Button variant="ghost" className="w-full justify-start gap-2">
             <CalendarIcon />
             Agendamentos

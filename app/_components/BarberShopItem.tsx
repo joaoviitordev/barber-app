@@ -42,8 +42,10 @@ export default function BarberShopItem({ barbershop }: BarberShopItemProps) {
           <Button
             variant="secondary"
             className="w-full mt-3 rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+            nativeButton={false}
+            render={<Link href={`/barbershops/${barbershop.id}`} />}
           >
-            <Link href={`/barbershops/${barbershop.id}`}>Reservar</Link>
+            Reservar
           </Button>
         </div>
       </CardContent>
