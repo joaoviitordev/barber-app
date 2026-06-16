@@ -88,7 +88,6 @@ export default async function barberShopPage({ params }: BarberShopProps) {
         <h2 className="uppercase text-gray-500 font-bold text-base">Contato</h2>
         <PhoneItem phone={barbershop.phones[0]} />
       </div>
-      <Footer />
     </div>
   );
 }

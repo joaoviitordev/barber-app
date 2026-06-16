@@ -3,7 +3,6 @@ import Header from "./_components/Header";
 import { Input } from "./_components/ui/input";
 import { Button } from "./_components/ui/button";
 import { db } from "./_lib/prisma";
-import Footer from "./_components/Footer";
 import BarberShopItem from "./_components/BarberShopItem";
 import FastButtons from "./_components/FastButtons";
 import BannerHomePage from "./_components/BannerHomePage";
@@ -31,13 +30,9 @@ export default async function Home() {
           <SearchIcon />
         </Button>
       </div>
-      {/* BOTÕES RáPIDOS */}
       <FastButtons />
-      {/* BANNER */}
       <BannerHomePage />
-      {/* AGENDAMENTOS */}
       <BookingItem />
-      {/* RECOMENDADOS */}
       <div className="px-5 mt-2">
         <h2 className="uppercase text-gray-500 text-sm py-4">Recomendados</h2>
         <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
@@ -55,7 +50,6 @@ export default async function Home() {
           ))}
         </div>
       </div>
-      <Footer />
     </main>
   );
 }
