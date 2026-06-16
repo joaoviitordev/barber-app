@@ -1,16 +1,11 @@
 import { db } from "@/app/_lib/prisma";
 import { Button } from "@/app/_components/ui/button";
 import Image from "next/image";
-import {
-  ArrowLeftIcon,
-  MapPinIcon,
-  MenuIcon,
-  PhoneIcon,
-  StarIcon,
-} from "lucide-react";
+import { ArrowLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
 import ServiceItem from "@/app/_components/ServiceItem";
 import Footer from "@/app/_components/Footer";
+import PhoneItem from "@/app/_components/PhoneItem";
 
 interface BarberShopProps {
   params: Promise<{ id: string }>;
@@ -91,13 +86,7 @@ export default async function barberShopPage({ params }: BarberShopProps) {
       </div>
       <div className="p-5 pb-0 flex flex-col gap-4">
         <h2 className="uppercase text-gray-500 font-bold text-base">Contato</h2>
-        <div className="flex flex-col items-start gap-2 ">
-          <div className="flex items-center justify-between w-full gap-2">
-            <PhoneIcon className="text-primary" />
-            <p className="w-full font-light">{barbershop.phones.join(", ")}</p>
-            <Button variant="secondary">Copiar</Button>
-          </div>
-        </div>
+        <PhoneItem phone={barbershop.phones[0]} />
       </div>
       <Footer />
     </div>
