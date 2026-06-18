@@ -6,11 +6,24 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { Button } from "./ui/button";
-import { HomeIcon, MenuIcon, CalendarIcon, LogOutIcon } from "lucide-react";
+import {
+  HomeIcon,
+  MenuIcon,
+  CalendarIcon,
+  LogOutIcon,
+  LogInIcon,
+} from "lucide-react";
 import MenuBottons from "./MenuBottons";
-import { Avatar } from "./ui/avatar";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 export default function Menu() {
   return (
@@ -25,21 +38,38 @@ export default function Menu() {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
-          <div className="flex items-center gap-2 pt-5">
-            <Avatar className="h-14 w-14 ring-2 ring-primary">
-              <Image
-                src="/joaoBlack.jpeg"
-                alt="João Vitor"
-                width={56}
-                height={56}
-                className="rounded-full object-cover"
-              />
-            </Avatar>
-            <div className="flex flex-col">
-              <p className="font-bold text-lg">João Vitor</p>
-              <p className="font-light">teste@gmail.com</p>
+          <Dialog>
+            <div className="flex justify-between items-center pt-5">
+              <h2 className="text-lg font-semibold">Olá, faça seu login!</h2>
+              <DialogTrigger>
+                <Button variant="default">
+                  <LogInIcon />
+                </Button>
+              </DialogTrigger>
             </div>
-          </div>
+            <DialogContent className="w-[90%] flex justify-center items-center">
+              <DialogHeader className="gap-4">
+                <DialogTitle className="text-center text-xl">
+                  Faça login na plataforma
+                </DialogTitle>
+                <DialogDescription className="text-center">
+                  Conecte-se usando sua conta do Google
+                </DialogDescription>
+                <DialogTrigger>
+                  <Button variant="outline" className="w-full">
+                    <Image
+                      src="Google.svg"
+                      alt="Google"
+                      width={16}
+                      height={16}
+                      className="rounded-full"
+                    />
+                    Google
+                  </Button>
+                </DialogTrigger>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </SheetHeader>
         <div className="p-5 flex flex-col gap-2 border-b border-t border-[chart-5]">
           <Button
