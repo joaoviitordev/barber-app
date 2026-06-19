@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/app/_lib/utils";
 import Footer from "./_components/Footer";
 import { Toaster } from "@/app/_components/ui/sonner";
+import AuthProvider from "./_providers/Auth";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-br"
+      suppressHydrationWarning
       className={cn(
         "h-full",
         "antialiased",
@@ -40,8 +42,8 @@ export default function RootLayout({
         "dark",
       )}
     >
-      <body className="min-h-full flex flex-col">
-        {children}
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <AuthProvider>{children}</AuthProvider>
 
         <Footer />
         <Toaster />

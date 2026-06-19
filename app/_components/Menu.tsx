@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sheet,
   SheetContent,
@@ -24,8 +26,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 export default function Menu() {
+  const { data: session } = useSession();
+
+  const handleLoginWithGoogle = async () => {
+    await signIn("google");
+  };
+
+  const handleLogout = async () => {
+    await signOut();
+  };
+
   return (
     <Sheet>
       <SheetTrigger
@@ -38,25 +53,55 @@ export default function Menu() {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
-          <Dialog>
-            <div className="flex justify-between items-center pt-5">
-              <h2 className="text-lg font-semibold">Olá, faça seu login!</h2>
-              <DialogTrigger>
-                <Button variant="default">
-                  <LogInIcon />
-                </Button>
-              </DialogTrigger>
+          {session ? (
+            <div className="flex items-center gap-2 pt-5">
+              <Avatar className="h-14 w-14 ring-2 ring-primary">
+                {session.user?.image ? (
+                  <Image
+                    src={session.user.image}
+                    alt={session.user.name || "Avatar"}
+                    width={56}
+                    height={56}
+                    className="rounded-full object-cover"
+                  />
+                ) : (
+                  <AvatarFallback className="rounded-full bg-muted flex items-center justify-center font-bold text-lg">
+                    {session.user?.name?.[0]?.toUpperCase() || "U"}
+                  </AvatarFallback>
+                )}
+              </Avatar>
+              <div className="flex flex-col">
+                <p className="font-bold text-lg">{session.user?.name}</p>
+                <p className="font-light text-sm text-muted-foreground">
+                  {session.user?.email}
+                </p>
+              </div>
             </div>
-            <DialogContent className="w-[90%] flex justify-center items-center">
-              <DialogHeader className="gap-4">
-                <DialogTitle className="text-center text-xl">
-                  Faça login na plataforma
-                </DialogTitle>
-                <DialogDescription className="text-center">
-                  Conecte-se usando sua conta do Google
-                </DialogDescription>
-                <DialogTrigger>
-                  <Button variant="outline" className="w-full">
+          ) : (
+            <Dialog>
+              <div className="flex justify-between items-center pt-5">
+                <h2 className="text-lg font-semibold">Olá, faça seu login!</h2>
+                <DialogTrigger
+                  render={
+                    <Button variant="default">
+                      <LogInIcon />
+                    </Button>
+                  }
+                />
+              </div>
+              <DialogContent className="w-[90%] flex justify-center items-center">
+                <DialogHeader className="gap-4">
+                  <DialogTitle className="text-center text-xl">
+                    Faça login na plataforma
+                  </DialogTitle>
+                  <DialogDescription className="text-center">
+                    Conecte-se usando sua conta do Google
+                  </DialogDescription>
+                  <Button
+                    variant="outline"
+                    className="w-full gap-2"
+                    onClick={handleLoginWithGoogle}
+                  >
                     <Image
                       src="Google.svg"
                       alt="Google"
@@ -66,10 +111,10 @@ export default function Menu() {
                     />
                     Google
                   </Button>
-                </DialogTrigger>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          )}
         </SheetHeader>
         <div className="p-5 flex flex-col gap-2 border-b border-t border-[chart-5]">
           <Button
@@ -90,10 +135,16 @@ export default function Menu() {
         </div>
         <MenuBottons />
         <div className="p-5">
-          <Button variant="ghost" className="w-full justify-start gap-2">
-            <LogOutIcon />
-            Sair da conta
-          </Button>
+          {session ? (
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-2"
+              onClick={handleLogout}
+            >
+              <LogOutIcon />
+              Sair da conta
+            </Button>
+          ) : null}
         </div>
       </SheetContent>
     </Sheet>

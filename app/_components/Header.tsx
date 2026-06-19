@@ -11,6 +11,7 @@ export default function Header() {
           alt="Logo da barbearia"
           width={120}
           height={120}
+          style={{ height: "auto" }}
         />
         <Menu />
       </CardContent>
