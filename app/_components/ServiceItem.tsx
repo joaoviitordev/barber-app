@@ -22,9 +22,17 @@ import { Calendar } from "./ui/calendar";
 import { ptBR } from "date-fns/locale";
 import { useState } from "react";
 import { format } from "date-fns";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { creatingBooking, getBookings } from "../_actions/creating-booking";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 interface ServiceItemProps {
   service: Omit<BarbershopService, "price"> & {
@@ -132,6 +140,10 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
     setSelectedTime(time);
   };
 
+  const handleLoginWithGoogle = async () => {
+    await signIn("google");
+  };
+
   return (
     <Card className="p-5">
       <div className="flex gap-3">
@@ -151,94 +163,130 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
             <span className="text-primary font-bold">
               R$ {service.price.toFixed(2)}
             </span>
-            <Sheet>
-              <SheetTrigger
-                render={<Button variant="secondary">Reservar</Button>}
-              ></SheetTrigger>
-              <SheetContent>
-                <SheetHeader className="border-b">
-                  <SheetTitle>Fazer Reserva</SheetTitle>
-                  <SheetDescription>
-                    Selecione a data e hora para agendar o serviço.
-                  </SheetDescription>
-                  <div className="flex w-full items-center justify-center pt-2">
-                    <Calendar
-                      mode="single"
-                      locale={ptBR}
-                      className="rounded-md border w-full"
-                      selected={date}
-                      onSelect={handleDateSelect}
-                    />
-                  </div>
-                </SheetHeader>
-                {date && (
-                  <div className="flex items-center gap-3 p-5 pt-1 border-b overflow-x-auto [&::-webkit-scrollbar]:hidden">
-                    {TIME_LIST.map((time) => (
-                      <Button
-                        key={time}
-                        variant={selectedTime === time ? "default" : "outline"}
-                        className="rounded-full"
-                        disabled={isTimeBooked(time)}
-                        onClick={() => handleTimeSelect(time)}
-                      >
-                        {time}
-                      </Button>
-                    ))}
-                  </div>
-                )}
+            {data?.user ? (
+              <Sheet>
+                <SheetTrigger
+                  render={<Button variant="secondary">Reservar</Button>}
+                ></SheetTrigger>
+                <SheetContent>
+                  <SheetHeader className="border-b">
+                    <SheetTitle>Fazer Reserva</SheetTitle>
+                    <SheetDescription>
+                      Selecione a data e hora para agendar o serviço.
+                    </SheetDescription>
+                    <div className="flex w-full items-center justify-center pt-2">
+                      <Calendar
+                        mode="single"
+                        locale={ptBR}
+                        className="rounded-md border w-full"
+                        selected={date}
+                        onSelect={handleDateSelect}
+                      />
+                    </div>
+                  </SheetHeader>
+                  {date && (
+                    <div className="flex items-center gap-3 p-5 pt-1 border-b overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                      {TIME_LIST.map((time) => (
+                        <Button
+                          key={time}
+                          variant={
+                            selectedTime === time ? "default" : "outline"
+                          }
+                          className="rounded-full"
+                          disabled={isTimeBooked(time)}
+                          onClick={() => handleTimeSelect(time)}
+                        >
+                          {time}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
 
-                {date && selectedTime && (
-                  <Card className="mx-5">
-                    <CardContent className="flex flex-col gap-2 justify-between items-center">
-                      <div className="flex justify-between items-center w-full">
-                        <h2 className="font-semibold text-base">
-                          {service.name}
-                        </h2>
-                        <h3 className="text-primary font-bold">
-                          R$ {service.price.toFixed(2)}
-                        </h3>
-                      </div>
-                      <div className="flex justify-between items-center w-full">
-                        <h2 className="text-sm text-muted-foreground">Data</h2>
-                        <h3 className="text-muted-foreground text-sm">
-                          {format(date, "dd 'de' MMMM", { locale: ptBR })}
-                        </h3>
-                      </div>
-                      <div className="flex justify-between items-center w-full">
-                        <h2 className="text-sm text-muted-foreground">
-                          Horário
-                        </h2>
-                        <h3 className="text-muted-foreground text-sm">
-                          {selectedTime}
-                        </h3>
-                      </div>
-                      <div className="flex justify-between items-center w-full">
-                        <h2 className="text-sm text-muted-foreground">
-                          Barbearia
-                        </h2>
-                        <h3 className="text-muted-foreground text-sm">
-                          {barbershop.name}
-                        </h3>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-                <SheetFooter className="px-5">
-                  <SheetClose
-                    render={
-                      <Button
-                        variant={date && selectedTime ? "default" : "outline"}
-                        className="w-full"
-                        disabled={!date || !selectedTime}
-                        onClick={handleBookingCreate}
-                      >
-                        Confirmar Reserva
-                      </Button>
-                    }
-                  ></SheetClose>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
+                  {date && selectedTime && (
+                    <Card className="mx-5">
+                      <CardContent className="flex flex-col gap-2 justify-between items-center">
+                        <div className="flex justify-between items-center w-full">
+                          <h2 className="font-semibold text-base">
+                            {service.name}
+                          </h2>
+                          <h3 className="text-primary font-bold">
+                            R$ {service.price.toFixed(2)}
+                          </h3>
+                        </div>
+                        <div className="flex justify-between items-center w-full">
+                          <h2 className="text-sm text-muted-foreground">
+                            Data
+                          </h2>
+                          <h3 className="text-muted-foreground text-sm">
+                            {format(date, "dd 'de' MMMM", { locale: ptBR })}
+                          </h3>
+                        </div>
+                        <div className="flex justify-between items-center w-full">
+                          <h2 className="text-sm text-muted-foreground">
+                            Horário
+                          </h2>
+                          <h3 className="text-muted-foreground text-sm">
+                            {selectedTime}
+                          </h3>
+                        </div>
+                        <div className="flex justify-between items-center w-full">
+                          <h2 className="text-sm text-muted-foreground">
+                            Barbearia
+                          </h2>
+                          <h3 className="text-muted-foreground text-sm">
+                            {barbershop.name}
+                          </h3>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                  <SheetFooter className="px-5">
+                    <SheetClose
+                      render={
+                        <Button
+                          variant={date && selectedTime ? "default" : "outline"}
+                          className="w-full"
+                          disabled={!date || !selectedTime}
+                          onClick={handleBookingCreate}
+                        >
+                          Confirmar Reserva
+                        </Button>
+                      }
+                    ></SheetClose>
+                  </SheetFooter>
+                </SheetContent>
+              </Sheet>
+            ) : (
+              <Dialog>
+                <DialogTrigger
+                  render={<Button variant="secondary">Reservar</Button>}
+                />
+                <DialogContent className="w-[90%] flex justify-center items-center">
+                  <DialogHeader className="gap-4">
+                    <DialogTitle className="text-center text-xl">
+                      Faça login na plataforma
+                    </DialogTitle>
+                    <DialogDescription className="text-center">
+                      Você precisa estar conectado para fazer uma reserva.
+                    </DialogDescription>
+                    <Button
+                      variant="outline"
+                      className="w-full gap-2"
+                      onClick={handleLoginWithGoogle}
+                    >
+                      <Image
+                        src="/Google.svg"
+                        alt="Google"
+                        width={16}
+                        height={16}
+                        className="rounded-full"
+                      />
+                      Google
+                    </Button>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
         </div>
       </div>
