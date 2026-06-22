@@ -26,6 +26,8 @@ export default async function barberShopPage({ params }: BarberShopProps) {
     return null;
   }
 
+  const { services: _services, ...barbershopWithoutServices } = barbershop;
+
   return (
     <div>
       <div className="relative">
@@ -81,7 +83,14 @@ export default async function barberShopPage({ params }: BarberShopProps) {
           Serviços
         </h2>
         {barbershop.services.map((service) => (
-          <ServiceItem key={service.id} service={service} />
+          <ServiceItem
+            key={service.id}
+            barbershop={barbershopWithoutServices}
+            service={{
+              ...service,
+              price: Number(service.price),
+            }}
+          />
         ))}
       </div>
       <div className="p-5 pb-0 flex flex-col gap-4">

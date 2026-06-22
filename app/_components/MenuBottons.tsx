@@ -41,6 +41,7 @@ export default function MenuBottons() {
       {menuBottons.map((item: MenuBottonsProps) => (
         <SheetClose
           key={item.title}
+          nativeButton={false}
           render={
             <Button
               variant="ghost"
