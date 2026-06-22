@@ -43,9 +43,10 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <AuthProvider>{children}</AuthProvider>
-
-        <Footer />
+        <AuthProvider>
+          <div className="flex flex-col h-full flex-1">{children}</div>
+          <Footer />
+        </AuthProvider>
         <Toaster />
       </body>
     </html>

@@ -35,7 +35,7 @@ export default async function BarberShopSearch({
           Resultados para: &quot;{search}&quot;
         </h2>
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 px-5 pt-0 pb-3 gap-3">
         {barbershops.map((barbershop) => (
           <BarberShopItem
             key={barbershop.id}
