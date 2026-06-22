@@ -5,8 +5,13 @@ import FastButtons from "./_components/FastButtons";
 import BannerHomePage from "./_components/BannerHomePage";
 import BookingItem from "./_components/BookingItem";
 import SearchItem from "./_components/SearchItem";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/_lib/auth";
+import Welcome from "./_components/Welcome";
 
 export default async function Home() {
+  const session = await getServerSession(authOptions);
+
   const babershop = await db.barbershop.findMany({});
   const popularBarberShop = await db.barbershop.findMany({
     take: 10,
@@ -14,13 +19,11 @@ export default async function Home() {
       name: "desc",
     },
   });
+
   return (
     <main>
       <Header />
-      <div className="p-5">
-        <h1 className="text-xl font-bold py-1">Olá, Faça seu Login!</h1>
-        <h2 className="text-sm mt-0.5">Sexta-Feira, 12 de Junho</h2>
-      </div>
+      <Welcome />
       <SearchItem />
       <FastButtons />
       <BannerHomePage />
