@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { SheetClose } from "./ui/sheet";
 
 interface MenuBottonsProps {
   imageUrl: string;
@@ -38,23 +39,20 @@ export default function MenuBottons() {
   return (
     <div className="p-5 pt-0 flex flex-col gap-2 border-b border-[chart-5]">
       {menuBottons.map((item: MenuBottonsProps) => (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-2"
+        <SheetClose
           key={item.title}
-          nativeButton={false}
           render={
-            <Link href={`/barbershops?search=${item.title}`}>
-              <Image
-                src={item.imageUrl}
-                alt={item.title}
-                width={20}
-                height={20}
-              />
-              <p>{item.title}</p>
-            </Link>
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-2"
+              nativeButton={false}
+              render={<Link href={`/barbershops?search=${item.title}`} />}
+            />
           }
-        />
+        >
+          <Image src={item.imageUrl} alt={item.title} width={20} height={20} />
+          <p>{item.title}</p>
+        </SheetClose>
       ))}
     </div>
   );
