@@ -1,7 +1,7 @@
 import { db } from "@/app/_lib/prisma";
 import { Button } from "@/app/_components/ui/button";
 import Image from "next/image";
-import { ArrowLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
+import { ArrowLeftIcon, MapPinIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
 import ServiceItem from "@/app/_components/ServiceItem";
 import PhoneItem from "@/app/_components/PhoneItem";
