@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
 
@@ -41,10 +42,19 @@ export default function MenuBottons() {
           variant="ghost"
           className="w-full justify-start gap-2"
           key={item.title}
-        >
-          <Image src={item.imageUrl} alt={item.title} width={20} height={20} />
-          <p>{item.title}</p>
-        </Button>
+          nativeButton={false}
+          render={
+            <Link href={`/barbershops?search=${item.title}`}>
+              <Image
+                src={item.imageUrl}
+                alt={item.title}
+                width={20}
+                height={20}
+              />
+              <p>{item.title}</p>
+            </Link>
+          }
+        />
       ))}
     </div>
   );

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
 
@@ -38,8 +39,18 @@ export default function FastButtons() {
     <div className="px-5 mt-6 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
       {fastButtonsList.map((item: FastButtonsProps) => (
         <Button variant="outline" key={item.title}>
-          <Image src={item.imageUrl} alt={item.title} width={20} height={20} />
-          <p className="text-sm">{item.title}</p>
+          <Link
+            href={`/barbershops?search=${item.title}`}
+            className="flex items-center gap-2"
+          >
+            <Image
+              src={item.imageUrl}
+              alt={item.title}
+              width={20}
+              height={20}
+            />
+            <p className="text-sm">{item.title}</p>
+          </Link>
         </Button>
       ))}
     </div>

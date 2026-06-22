@@ -16,12 +16,28 @@ export default async function BarberShopSearch({
   const search = resolvedSearchParams.search;
 
   const barbershops = await db.barbershop.findMany({
-    where: {
-      name: {
-        contains: search,
-        mode: "insensitive", // para não considerar letra maiuscula e minuscula
-      },
-    },
+    where: search
+      ? {
+          OR: [
+            {
+              name: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              services: {
+                some: {
+                  name: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          ],
+        }
+      : {},
   });
 
   return (
