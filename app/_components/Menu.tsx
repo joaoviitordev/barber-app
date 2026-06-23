@@ -38,7 +38,7 @@ export default function Menu() {
   };
 
   const handleLogout = async () => {
-    await signOut();
+    await signOut({ callbackUrl: "/" });
   };
 
   return (
