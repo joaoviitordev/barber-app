@@ -9,6 +9,7 @@ export default function BannerHomePage() {
         width={100}
         height={100}
         className="w-full h-full object-cover rounded-2xl"
+        loading="eager"
       />
     </div>
   );
