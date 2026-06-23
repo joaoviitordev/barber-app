@@ -3,4 +3,18 @@ import { authOptions } from "@/app/_lib/auth";
 
 const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST };
+export async function GET(
+  req: Request,
+  context: { params: Promise<{ nextauth: string[] }> },
+) {
+  const params = await context.params;
+  return handler(req, { params });
+}
+
+export async function POST(
+  req: Request,
+  context: { params: Promise<{ nextauth: string[] }> },
+) {
+  const params = await context.params;
+  return handler(req, { params });
+}
