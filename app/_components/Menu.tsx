@@ -128,7 +128,14 @@ export default function Menu() {
               </Link>
             }
           />
-          <Button variant="ghost" className="w-full justify-start gap-2">
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-2"
+            nativeButton={false}
+            render={
+              <Link href="/bookings" className="flex items-center gap-2" />
+            }
+          >
             <CalendarIcon />
             Agendamentos
           </Button>

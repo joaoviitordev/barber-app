@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/app/_lib/prisma";
+import { db } from "../_lib/prisma";
 import { startOfDay, endOfDay } from "date-fns";
 
 interface CreatingBookingParams {

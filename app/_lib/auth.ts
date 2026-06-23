@@ -33,10 +33,8 @@ export const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      // @ts-expect-error under construction
-      session.accessToken = token.accessToken;
-      // @ts-expect-error under construction
-      session.user = token.user;
+      session.accessToken = token.accessToken as string;
+      session.user = token.user as typeof session.user;
       return session;
     },
   },
