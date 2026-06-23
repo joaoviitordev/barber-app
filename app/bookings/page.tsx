@@ -24,6 +24,9 @@ export default async function Bookings() {
         },
       },
     },
+    orderBy: {
+      date: "asc",
+    },
   });
 
   const finishedBookings = await db.booking.findMany({
@@ -39,6 +42,9 @@ export default async function Bookings() {
           barbershop: true,
         },
       },
+    },
+    orderBy: {
+      date: "asc",
     },
   });
 

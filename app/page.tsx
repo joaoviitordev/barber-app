@@ -32,6 +32,9 @@ export default async function Home() {
             },
           },
         },
+        orderBy: {
+          date: "asc",
+        },
       })
     : [];
 
