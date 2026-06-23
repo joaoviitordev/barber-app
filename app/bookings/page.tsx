@@ -48,23 +48,47 @@ export default async function Bookings() {
     },
   });
 
+  const serializedConfirmedBookings = confirmedBookings.map((booking) => ({
+    ...booking,
+    service: {
+      ...booking.service,
+      price: Number(booking.service.price),
+    },
+  }));
+
+  const serializedFinishedBookings = finishedBookings.map((booking) => ({
+    ...booking,
+    service: {
+      ...booking.service,
+      price: Number(booking.service.price),
+    },
+  }));
+
   return (
     <>
       <Header />
       <div>
         <h2 className="text-xl font-semibold p-5 pb-0">Agendamentos</h2>
-        <div className="flex flex-col gap-3 mt-5">
-          <h3 className="uppercase text-gray-500 text-sm px-5">Confirmados</h3>
-          {confirmedBookings.map((booking) => (
-            <BookingItem key={booking.id} booking={booking} />
-          ))}
-        </div>
-        <div className="flex flex-col gap-3 mt-5">
-          <h3 className="uppercase text-gray-500 text-sm px-5">Finalizados</h3>
-          {finishedBookings.map((booking) => (
-            <BookingItem key={booking.id} booking={booking} />
-          ))}
-        </div>
+        {serializedConfirmedBookings.length > 0 && (
+          <div className="flex flex-col gap-3 mt-5">
+            <h3 className="uppercase text-gray-500 text-sm px-5">
+              Confirmados
+            </h3>
+            {serializedConfirmedBookings.map((booking) => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))}
+          </div>
+        )}
+        {serializedFinishedBookings.length > 0 && (
+          <div className="flex flex-col gap-3 mt-5">
+            <h3 className="uppercase text-gray-500 text-sm px-5">
+              Finalizados
+            </h3>
+            {serializedFinishedBookings.map((booking) => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

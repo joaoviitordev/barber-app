@@ -38,6 +38,14 @@ export default async function Home() {
       })
     : [];
 
+  const serializedBookings = bookings.map((booking) => ({
+    ...booking,
+    service: {
+      ...booking.service,
+      price: Number(booking.service.price),
+    },
+  }));
+
   return (
     <main>
       <Header />
@@ -45,12 +53,19 @@ export default async function Home() {
       <SearchItem />
       <FastButtons />
       <BannerHomePage />
-      <h2 className="uppercase text-gray-500 text-sm p-5 pb-2">Agendamentos</h2>
-      <div className="flex overflow-x-auto [&::-webkit-scrollbar]:hidden">
-        {bookings?.map((booking) => (
-          <BookingItem key={booking.id} booking={booking} />
-        ))}
-      </div>
+      {serializedBookings.length > 0 && (
+        <>
+          <h2 className="uppercase text-gray-500 text-sm p-5 pb-2">
+            Agendamentos
+          </h2>
+          <div className="flex overflow-x-auto [&::-webkit-scrollbar]:hidden">
+            {serializedBookings.map((booking) => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))}
+          </div>
+        </>
+      )}
+
       <div className="px-5 mt-2">
         <h2 className="uppercase text-gray-500 text-sm py-4">Recomendados</h2>
         <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">

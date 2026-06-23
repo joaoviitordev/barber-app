@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
@@ -6,29 +8,74 @@ import { ptBR } from "date-fns/locale";
 import { format, isBefore } from "date-fns";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
 import Image from "next/image";
 import PhoneItem from "./PhoneItem";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
+import deleteBooking from "../_actions/delete-booking";
+import { toast } from "sonner";
+import { useState } from "react";
 
 interface BookingItemProps {
-  booking: Prisma.BookingGetPayload<{
-    include: {
-      service: { include: { barbershop: true } };
+  booking: Omit<
+    Prisma.BookingGetPayload<{
+      include: {
+        service: { include: { barbershop: true } };
+      };
+    }>,
+    "service"
+  > & {
+    service: Omit<
+      Prisma.BookingGetPayload<{
+        include: {
+          service: { include: { barbershop: true } };
+        };
+      }>["service"],
+      "price"
+    > & {
+      price: number;
     };
-  }>;
+  };
 }
 
 export default function BookingItem({ booking }: BookingItemProps) {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const isCompleted = isBefore(booking.date, new Date());
   const {
     service: { barbershop },
   } = booking;
+
+  const handleDeleteBooking = async () => {
+    try {
+      setIsSheetOpen(false);
+      await deleteBooking(booking.id);
+      toast.success("Reserva cancelada com sucesso!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro ao cancelar reserva. Tente novamente!");
+    }
+  };
+
   return (
-    <Sheet>
+    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetTrigger>
         <div className="px-5 mt-2 min-w-full">
           <Card className="p-0 flex flex-row gap-2">
@@ -129,6 +176,51 @@ export default function BookingItem({ booking }: BookingItemProps) {
             <PhoneItem key={`${phone}-${index}`} phone={phone} />
           ))}
         </div>
+        <SheetFooter className="p-5">
+          <div className="flex flex-row gap-3">
+            <SheetClose className="flex-1">
+              <Button
+                className="w-full"
+                variant="outline"
+                render={<Link href={"/bookings"} />}
+                nativeButton={false}
+              >
+                Voltar
+              </Button>
+            </SheetClose>
+            {!isCompleted && (
+              <AlertDialog>
+                <AlertDialogTrigger
+                  nativeButton={true}
+                  render={
+                    <Button className="flex-1" variant="destructive">
+                      Cancelar reserva
+                    </Button>
+                  }
+                />
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Cancelar reserva</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Tem certeza que deseja cancelar a sua reserva?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel variant="outline">
+                      Cancelar
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      variant="destructive"
+                      onClick={handleDeleteBooking}
+                    >
+                      Confirmar
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+          </div>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );
