@@ -61,6 +61,8 @@ public/             Imagens e ícones estáticos
 
 ## Como executar o projeto
 
+Link direto: https://barber-app-rust-theta.vercel.app/
+
 ### Pré-requisitos
 
 - Node.js
